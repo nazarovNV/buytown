@@ -9,5 +9,9 @@ class UserRepository @Inject constructor(
     private val apiService: ApiService
 ) {
     suspend fun register(user: User) = apiService.register(user)
-    suspend fun login(email: String, password: String) = apiService.login(mapOf("email" to email, "password" to password))
+
+    suspend fun login(email: String, password: String): String {
+        val response = apiService.login(mapOf("email" to email, "password" to password))
+        return response.access_token
+    }
 }

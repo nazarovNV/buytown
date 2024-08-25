@@ -10,5 +10,5 @@ interface ApiService {
     suspend fun register(@Body user: User)
 
     @POST("login")
-    suspend fun login(@Body credentials: Map<String, String>): String
+    suspend fun login(@Body credentials: Map<String, String>): LoginResponse
 }

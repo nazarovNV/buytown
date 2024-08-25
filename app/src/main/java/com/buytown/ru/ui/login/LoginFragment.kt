@@ -46,11 +46,11 @@ class LoginFragment : Fragment() {
                             // Навигация на экран списка товаров (замените на ваш идентификатор)
                             // TODO("Сделать переход на сл фрагмент")
                             //findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
-                            Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
                         }
                         Status.ERROR -> {
-                            Log.e("Test",resource.message?:"фа")
-                            Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                            Log.e("LoginFragment", "ERROR: ${resource.data}")
+                            Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
                         }
                         Status.LOADING -> {
                             // отображение загрузки
