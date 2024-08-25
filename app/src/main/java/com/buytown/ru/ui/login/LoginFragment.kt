@@ -24,6 +24,8 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModels()
 
+    private var isRegistering = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,21 +41,40 @@ class LoginFragment : Fragment() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
-            lifecycleScope.launch {
-                loginViewModel.login(email, password) { resource ->
-                    when (resource.status) {
-                        Status.SUCCESS -> {
-                            // Навигация на экран списка товаров (замените на ваш идентификатор)
-                            // TODO("Сделать переход на сл фрагмент")
-                            //findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
-                            Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
+            if (isRegistering) {
+                val username = binding.usernameEditText.text.toString()
+                lifecycleScope.launch {
+                    loginViewModel.register(username, email, password) { resource ->
+                        when (resource.status) {
+                            Status.SUCCESS -> {
+                                Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show()
+                                switchToLogin()
+                            }
+                            Status.ERROR -> {
+                                Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                            }
+                            Status.LOADING -> {
+                                // отображение загрузки
+                            }
                         }
-                        Status.ERROR -> {
-                            Log.e("LoginFragment", "ERROR: ${resource.data}")
-                            Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
-                        }
-                        Status.LOADING -> {
-                            // отображение загрузки
+                    }
+                }
+            } else {
+                lifecycleScope.launch {
+                    loginViewModel.login(email, password) { resource ->
+                        when (resource.status) {
+                            Status.SUCCESS -> {
+                                Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
+                                // Навигация на следующий фрагмент
+                                // findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
+                            }
+                            Status.ERROR -> {
+                                Log.e("LoginFragment", "ERROR: ${resource.message}")
+                                Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
+                            }
+                            Status.LOADING -> {
+                                // отображение загрузки
+                            }
                         }
                     }
                 }
@@ -61,33 +82,28 @@ class LoginFragment : Fragment() {
         }
 
         binding.registerButton.setOnClickListener {
-            binding.usernameEditText.visibility = View.VISIBLE
-            binding.registerButton.visibility = View.GONE
+            switchToRegister()
         }
 
         binding.registerButtonComplete.setOnClickListener {
-            val username = binding.usernameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
-
-            lifecycleScope.launch {
-                loginViewModel.register(username, email, password) { resource ->
-                    when (resource.status) {
-                        Status.SUCCESS -> {
-                            Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show()
-                            binding.usernameEditText.visibility = View.GONE
-                            binding.registerButton.visibility = View.VISIBLE
-                        }
-                        Status.ERROR -> {
-                            Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                        }
-                        Status.LOADING -> {
-                            // отображение загрузки
-                        }
-                    }
-                }
-            }
+            switchToLogin()
         }
+    }
+
+    private fun switchToRegister() {
+        isRegistering = true
+        binding.usernameEditText.visibility = View.VISIBLE
+        binding.registerButton.visibility = View.GONE
+        binding.registerButtonComplete.visibility = View.VISIBLE
+        binding.loginButton.text = "Register"
+    }
+
+    private fun switchToLogin() {
+        isRegistering = false
+        binding.usernameEditText.visibility = View.GONE
+        binding.registerButton.visibility = View.VISIBLE
+        binding.registerButtonComplete.visibility = View.GONE
+        binding.loginButton.text = "Login"
     }
 
     override fun onDestroyView() {

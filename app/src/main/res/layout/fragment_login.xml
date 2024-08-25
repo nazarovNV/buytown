@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:hint="Username"
         android:visibility="gone" />
+    <!-- Поле для регистрации (изначально скрыто) -->
 
     <EditText
         android:id="@+id/emailEditText"
@@ -38,15 +39,14 @@
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:visibility="gone"
+        android:text="Switch to Registration"
         android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/registerButtonComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Complete Registration"
+        android:text="Register"
         android:visibility="gone"
         android:layout_marginTop="16dp" />
 
