@@ -11,10 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentLoginBinding
-import com.buytown.ru.utils.Resource
 import com.buytown.ru.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -101,9 +98,8 @@ class LoginFragment : Fragment() {
                         Log.e("LoginFragment", "ERROR: ${resource.message}")
                         Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
                     }
-                    Status.LOADING -> {
-                        showLoading(true)
-                    }
+
+                    Status.LOADING -> TODO()
                 }
             }
         }
@@ -126,9 +122,8 @@ class LoginFragment : Fragment() {
                     Status.ERROR -> {
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
                     }
-                    Status.LOADING -> {
-                        showLoading(true)
-                    }
+
+                    Status.LOADING -> TODO()
                 }
             }
         }
@@ -164,6 +159,17 @@ class LoginFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        enableInputs(!isLoading)
+    }
+
+    private fun enableInputs(enable: Boolean) {
+        binding.emailEditText.isEnabled = enable
+        binding.passwordEditText.isEnabled = enable
+        binding.usernameEditText.isEnabled = enable
+        binding.loginButton.isEnabled = enable
+        binding.registerButton.isEnabled = enable
+        binding.registerSwitchText.isEnabled = enable
+        binding.authSwitchText.isEnabled = enable
     }
 
     override fun onDestroyView() {
@@ -171,3 +177,5 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
+
+
