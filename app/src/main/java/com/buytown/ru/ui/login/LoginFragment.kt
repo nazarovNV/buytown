@@ -45,11 +45,11 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.registerSwitchButton.setOnClickListener {
+        binding.registerSwitchText.setOnClickListener {
             toggleRegistrationMode()
         }
 
-        binding.authSwitchButton.setOnClickListener {
+        binding.authSwitchText.setOnClickListener {
             toggleRegistrationMode()
         }
 
@@ -61,13 +61,12 @@ class LoginFragment : Fragment() {
     private fun toggleRegistrationMode() {
         isRegistering = !isRegistering
 
-        binding.usernameEditText.visibility = if (isRegistering) View.VISIBLE else View.GONE
+        binding.usernameTextInputLayout.visibility = if (isRegistering) View.VISIBLE else View.GONE
         binding.loginButton.visibility = if (isRegistering) View.GONE else View.VISIBLE
         binding.registerButton.visibility = if (isRegistering) View.VISIBLE else View.GONE
 
-        // Переключаем видимость кнопок переключения режимов
-        binding.registerSwitchButton.visibility = if (isRegistering) View.GONE else View.VISIBLE
-        binding.authSwitchButton.visibility = if (isRegistering) View.VISIBLE else View.GONE
+        binding.registerSwitchText.visibility = if (isRegistering) View.GONE else View.VISIBLE
+        binding.authSwitchText.visibility = if (isRegistering) View.VISIBLE else View.GONE
     }
 
     private fun loginUser() {
@@ -122,3 +121,4 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
+

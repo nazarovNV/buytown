@@ -8,52 +8,80 @@
     android:padding="16dp"
     tools:context=".ui.login.LoginFragment">
 
-    <EditText
-        android:id="@+id/usernameEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="Username"
-        android:visibility="gone" />
+        android:visibility="gone">
 
-    <EditText
-        android:id="@+id/emailEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:layout_marginTop="16dp"
+        android:hint="Email">
 
-    <EditText
-        android:id="@+id/passwordEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:layout_marginTop="16dp"
+        android:hint="Password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Login" />
 
-    <Button
-        android:id="@+id/registerSwitchButton"
+    <TextView
+        android:id="@+id/registerSwitchText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Switch to Registration"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/authSwitchButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Switch to Login"
-        android:visibility="gone"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Впервые в BuyTown? Зарегистрируйтесь"
+        android:textColor="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Register"
-        android:visibility="gone"
-        android:layout_marginTop="16dp" />
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/authSwitchText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Уже зарегистрировались? Перейти к авторизации"
+        android:textColor="?attr/colorPrimary"
+        android:visibility="gone" />
 </LinearLayout>
