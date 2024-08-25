@@ -9,6 +9,14 @@
     android:paddingHorizontal="16dp"
     tools:context=".ui.login.LoginFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/instructionText"
         android:layout_width="match_parent"
