@@ -20,7 +20,7 @@ object NetworkModule {
         val client = OkHttpClient.Builder().build()
 
         return Retrofit.Builder()
-            .baseUrl("http://147.45.153.157:8000/") // Замените на ваш базовый URL
+            .baseUrl("http://147.45.153.157:8000/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
