@@ -65,7 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Войти" />
+        android:text="Войти"
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/registerSwitchText"
@@ -82,7 +83,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Зарегистрироваться"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/authSwitchText"

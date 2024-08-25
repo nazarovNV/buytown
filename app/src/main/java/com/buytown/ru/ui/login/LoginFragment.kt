@@ -1,6 +1,8 @@
 package com.buytown.ru.ui.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +58,10 @@ class LoginFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             registerUser()
         }
+
+        // Добавим TextWatchers для отслеживания изменений текста
+        setupTextWatchers()
+        updateButtonsState()
     }
 
     private fun toggleRegistrationMode() {
@@ -69,10 +75,12 @@ class LoginFragment : Fragment() {
         binding.authSwitchText.visibility = if (isRegistering) View.VISIBLE else View.GONE
 
         binding.instructionText.text = if (isRegistering) {
-            "Добро пожаловать в BuyTown! \nДля регистрации введите ваш логин, почту и пароль"
+            "Добро пожаловать в BuyTown!\nДля регистрации введите ваш логин, почту и пароль"
         } else {
             "Введите ваш логин и пароль"
         }
+
+        updateButtonsState()
     }
 
     private fun loginUser() {
@@ -122,10 +130,37 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun setupTextWatchers() {
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateButtonsState()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        binding.usernameEditText.addTextChangedListener(textWatcher)
+        binding.emailEditText.addTextChangedListener(textWatcher)
+        binding.passwordEditText.addTextChangedListener(textWatcher)
+    }
+
+    private fun updateButtonsState() {
+        val isEmailNotEmpty = binding.emailEditText.text.toString().isNotEmpty()
+        val isPasswordNotEmpty = binding.passwordEditText.text.toString().isNotEmpty()
+        val isUsernameNotEmpty = binding.usernameEditText.text.toString().isNotEmpty()
+
+        if (isRegistering) {
+            binding.registerButton.isEnabled = isUsernameNotEmpty && isEmailNotEmpty && isPasswordNotEmpty
+        } else {
+            binding.loginButton.isEnabled = isEmailNotEmpty && isPasswordNotEmpty
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-
 
