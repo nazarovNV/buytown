@@ -67,6 +67,12 @@ class LoginFragment : Fragment() {
 
         binding.registerSwitchText.visibility = if (isRegistering) View.GONE else View.VISIBLE
         binding.authSwitchText.visibility = if (isRegistering) View.VISIBLE else View.GONE
+
+        binding.instructionText.text = if (isRegistering) {
+            "Добро пожаловать в BuyTown! \nДля регистрации введите ваш логин, почту и пароль"
+        } else {
+            "Введите ваш логин и пароль"
+        }
     }
 
     private fun loginUser() {
@@ -121,4 +127,5 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
+
 
