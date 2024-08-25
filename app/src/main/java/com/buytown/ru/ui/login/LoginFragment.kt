@@ -88,7 +88,9 @@ class LoginFragment : Fragment() {
         val password = binding.passwordEditText.text.toString()
 
         lifecycleScope.launch {
+            showLoading(true)
             loginViewModel.login(email, password) { resource ->
+                showLoading(false)
                 when (resource.status) {
                     Status.SUCCESS -> {
                         Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
@@ -100,7 +102,7 @@ class LoginFragment : Fragment() {
                         Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
                     }
                     Status.LOADING -> {
-                        // отображение загрузки
+                        showLoading(true)
                     }
                 }
             }
@@ -113,7 +115,9 @@ class LoginFragment : Fragment() {
         val password = binding.passwordEditText.text.toString()
 
         lifecycleScope.launch {
+            showLoading(true)
             loginViewModel.register(username, email, password) { resource ->
+                showLoading(false)
                 when (resource.status) {
                     Status.SUCCESS -> {
                         Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show()
@@ -123,7 +127,7 @@ class LoginFragment : Fragment() {
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
                     }
                     Status.LOADING -> {
-                        // отображение загрузки
+                        showLoading(true)
                     }
                 }
             }
@@ -158,9 +162,14 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
 
