@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.buytown.ru.databinding.FragmentLoginBinding
@@ -105,26 +104,28 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleResult(resource: Resource<*>) {
+        binding.errorText.visibility = View.GONE
         when (resource.status) {
             Status.SUCCESS -> {
                 when (resource.data) {
                     is String -> {
-                        Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
+                        // Успешная авторизация
                         // Навигация на следующий фрагмент
                         // findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
                     }
                     is Unit -> {
-                        Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show()
+                        // Успешная регистрация
                         toggleRegistrationMode()
                     }
                 }
             }
             Status.ERROR -> {
-                Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
+                binding.errorText.text = resource.message
+                binding.errorText.visibility = View.VISIBLE
             }
-            // Если мы решили показывать сообщение в состоянии LOADING, оно должно обрабатываться здесь,
-            // но пока нет необходимости обрабатывать его, так как showLoading() уже обрабатывает состояние.
-            Status.LOADING -> TODO()
+            Status.LOADING -> {
+                // Показывать иконку загрузки или сообщение. Обработка в showLoading()
+            }
         }
     }
 

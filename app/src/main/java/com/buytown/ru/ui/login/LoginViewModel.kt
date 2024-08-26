@@ -32,7 +32,7 @@ class LoginViewModel @Inject constructor(
                 userRepository.register(User(username, email, password))
                 _registerResult.value = Resource.success(Unit)
             } catch (e: Exception) {
-                _registerResult.value = Resource.error(e.localizedMessage ?: "Error")
+                _registerResult.value = Resource.error("Не удалось зарегистрироваться. Попробуйте еще раз.")
             } finally {
                 _isLoading.value = false
             }
@@ -46,7 +46,7 @@ class LoginViewModel @Inject constructor(
                 val token = userRepository.login(email, password)
                 _loginResult.value = Resource.success(token)
             } catch (e: Exception) {
-                _loginResult.value = Resource.error(e.localizedMessage ?: "Error")
+                _loginResult.value = Resource.error("Неверный логин или пароль. Попробуйте еще раз.")
             } finally {
                 _isLoading.value = false
             }
