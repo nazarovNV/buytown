@@ -1,5 +1,7 @@
 package com.buytown.ru.ui.login
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buytown.ru.data.repository.UserRepository
@@ -14,24 +16,39 @@ class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    fun register(username: String, email: String, password: String, onResult: (Resource<Unit>) -> Unit) {
+    private val _loginResult = MutableLiveData<Resource<String>>()
+    val loginResult: LiveData<Resource<String>> = _loginResult
+
+    private val _registerResult = MutableLiveData<Resource<Unit>>()
+    val registerResult: LiveData<Resource<Unit>> = _registerResult
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    fun register(username: String, email: String, password: String) {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 userRepository.register(User(username, email, password))
-                onResult(Resource.success(Unit))
+                _registerResult.value = Resource.success(Unit)
             } catch (e: Exception) {
-                onResult(Resource.error(e.localizedMessage ?: "Error"))
+                _registerResult.value = Resource.error(e.localizedMessage ?: "Error")
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
-    fun login(email: String, password: String, onResult: (Resource<String>) -> Unit) {
+    fun login(email: String, password: String) {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val token = userRepository.login(email, password)
-                onResult(Resource.success(token))
+                _loginResult.value = Resource.success(token)
             } catch (e: Exception) {
-                onResult(Resource.error(e.localizedMessage ?: "Error"))
+                _loginResult.value = Resource.error(e.localizedMessage ?: "Error")
+            } finally {
+                _isLoading.value = false
             }
         }
     }

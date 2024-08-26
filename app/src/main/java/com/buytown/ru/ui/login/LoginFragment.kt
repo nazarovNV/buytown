@@ -3,18 +3,16 @@ package com.buytown.ru.ui.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.buytown.ru.databinding.FragmentLoginBinding
+import com.buytown.ru.utils.Resource
 import com.buytown.ru.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -59,6 +57,17 @@ class LoginFragment : Fragment() {
         // Добавим TextWatchers для отслеживания изменений текста
         setupTextWatchers()
         updateButtonsState()
+
+        // Соберите результаты входа и регистрации
+        loginViewModel.loginResult.observe(viewLifecycleOwner) { resource ->
+            handleResult(resource)
+        }
+        loginViewModel.registerResult.observe(viewLifecycleOwner) { resource ->
+            handleResult(resource)
+        }
+        loginViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            showLoading(isLoading)
+        }
     }
 
     private fun toggleRegistrationMode() {
@@ -84,25 +93,7 @@ class LoginFragment : Fragment() {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
 
-        lifecycleScope.launch {
-            showLoading(true)
-            loginViewModel.login(email, password) { resource ->
-                showLoading(false)
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
-                        // Навигация на следующий фрагмент
-                        // findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
-                    }
-                    Status.ERROR -> {
-                        Log.e("LoginFragment", "ERROR: ${resource.message}")
-                        Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
-                    }
-
-                    Status.LOADING -> TODO()
-                }
-            }
-        }
+        loginViewModel.login(email, password)
     }
 
     private fun registerUser() {
@@ -110,22 +101,30 @@ class LoginFragment : Fragment() {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
 
-        lifecycleScope.launch {
-            showLoading(true)
-            loginViewModel.register(username, email, password) { resource ->
-                showLoading(false)
-                when (resource.status) {
-                    Status.SUCCESS -> {
+        loginViewModel.register(username, email, password)
+    }
+
+    private fun handleResult(resource: Resource<*>) {
+        when (resource.status) {
+            Status.SUCCESS -> {
+                when (resource.data) {
+                    is String -> {
+                        Toast.makeText(context, "SUCCESS: ${resource.data}", Toast.LENGTH_SHORT).show()
+                        // Навигация на следующий фрагмент
+                        // findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
+                    }
+                    is Unit -> {
                         Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show()
                         toggleRegistrationMode()
                     }
-                    Status.ERROR -> {
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                    }
-
-                    Status.LOADING -> TODO()
                 }
             }
+            Status.ERROR -> {
+                Toast.makeText(context, "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
+            }
+            // Если мы решили показывать сообщение в состоянии LOADING, оно должно обрабатываться здесь,
+            // но пока нет необходимости обрабатывать его, так как showLoading() уже обрабатывает состояние.
+            Status.LOADING -> TODO()
         }
     }
 
@@ -177,5 +176,3 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
-
-
