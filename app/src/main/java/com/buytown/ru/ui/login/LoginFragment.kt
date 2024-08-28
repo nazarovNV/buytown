@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.buytown.ru.MainActivity
 import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentLoginBinding
 import com.buytown.ru.utils.Resource
@@ -105,7 +106,8 @@ class LoginFragment : Fragment() {
             Status.SUCCESS -> {
                 when (resource.data) {
                     is String -> {
-                        // Успешная авторизация, выполняем навигацию
+                        // Успешная авторизация, сохраняем токен и выполняем навигацию
+                        (requireActivity() as MainActivity).saveToken(resource.data)
                         findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     }
                     is Unit -> {
