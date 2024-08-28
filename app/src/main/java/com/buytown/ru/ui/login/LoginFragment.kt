@@ -1,6 +1,5 @@
 package com.buytown.ru.ui.login
 
-import MainActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.buytown.ru.MainActivity
 import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentLoginBinding
 import com.buytown.ru.utils.Resource
@@ -48,10 +48,6 @@ class LoginFragment : Fragment() {
             toggleRegistrationMode()
         }
 
-        binding.authSwitchText.setOnClickListener {
-            toggleRegistrationMode()
-        }
-
         setupTextWatchers()
         updateButtonsState()
 
@@ -70,19 +66,8 @@ class LoginFragment : Fragment() {
         isRegistering = !isRegistering
 
         binding.usernameTextInputLayout.visibility = if (isRegistering) View.VISIBLE else View.GONE
-        binding.loginButton.visibility = if (isRegistering) View.GONE else View.VISIBLE
-        binding.registerButton.visibility = if (isRegistering) View.VISIBLE else View.GONE
-
-        binding.registerSwitchText.visibility = if (isRegistering) View.GONE else View.VISIBLE
-        binding.authSwitchText.visibility = if (isRegistering) View.VISIBLE else View.GONE
-
-        binding.instructionText.text = if (isRegistering) {
-            "Добро пожаловать в BuyTown!\nДля регистрации введите ваш логин, почту и пароль"
-        } else {
-            "Введите ваш логин и пароль"
-        }
-
-        updateButtonsState()
+        binding.loginButton.text = if (isRegistering) "Register" else "Login"
+        binding.registerSwitchText.text = if (isRegistering) "Already have an account? Log in" else "Don't have an account? Register"
     }
 
     private fun loginUser() {
@@ -108,10 +93,10 @@ class LoginFragment : Fragment() {
                     is String -> {
                         // Успешная авторизация, сохраняем токен и выполняем навигацию
                         (requireActivity() as MainActivity).saveToken(resource.data)
-                        findNavController().navigate(R.id.action_loginFragment_to_nav_main)
+                        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     }
                     is Unit -> {
-                        // Успешная регистрация
+                        // Успешная регистрация, переключаем режим на вход
                         toggleRegistrationMode()
                     }
                 }
@@ -145,10 +130,10 @@ class LoginFragment : Fragment() {
         val isPasswordNotEmpty = binding.passwordEditText.text.toString().isNotEmpty()
         val isUsernameNotEmpty = binding.usernameEditText.text.toString().isNotEmpty()
 
-        if (isRegistering) {
-            binding.registerButton.isEnabled = isUsernameNotEmpty && isEmailNotEmpty && isPasswordNotEmpty
+        binding.loginButton.isEnabled = if (isRegistering) {
+            isEmailNotEmpty && isPasswordNotEmpty && isUsernameNotEmpty
         } else {
-            binding.loginButton.isEnabled = isEmailNotEmpty && isPasswordNotEmpty
+            isEmailNotEmpty && isPasswordNotEmpty
         }
     }
 
@@ -162,9 +147,7 @@ class LoginFragment : Fragment() {
         binding.passwordEditText.isEnabled = enable
         binding.usernameEditText.isEnabled = enable
         binding.loginButton.isEnabled = enable
-        binding.registerButton.isEnabled = enable
         binding.registerSwitchText.isEnabled = enable
-        binding.authSwitchText.isEnabled = enable
     }
 
     override fun onDestroyView() {
