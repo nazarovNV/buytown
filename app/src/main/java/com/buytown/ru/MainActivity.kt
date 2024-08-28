@@ -2,7 +2,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -25,32 +24,21 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Initial graph setup
-        val graph = navController.navInflater.inflate(R.navigation.nav_login)
         if (isUserLoggedIn()) {
-            graph.setStartDestination(R.id.nav_main)
+            binding.bottomNavigationView.visibility = View.VISIBLE
+            navController.setGraph(R.navigation.nav_main)
         } else {
-            graph.setStartDestination(R.id.nav_login)
+            binding.bottomNavigationView.visibility = View.GONE
+            navController.setGraph(R.navigation.nav_login)
         }
-        navController.graph = graph
 
         binding.bottomNavigationView.setupWithNavController(navController)
-
-        // Hide BottomNavigationView initially if user is not logged in
-        if (!isUserLoggedIn()) {
-            binding.bottomNavigationView.visibility = View.GONE
-        }
-
         setupActionBarWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
-                else -> {
-                    binding.bottomNavigationView.visibility = View.VISIBLE
-                }
+                R.id.loginFragment -> binding.bottomNavigationView.visibility = View.GONE
+                else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }
     }
