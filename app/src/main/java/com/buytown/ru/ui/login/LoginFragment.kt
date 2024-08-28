@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
                     is String -> {
                         // Успешная авторизация, сохраняем токен и выполняем навигацию
                         (requireActivity() as MainActivity).saveToken(resource.data)
-                        findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                        findNavController().navigate(R.id.action_loginFragment_to_nav_main)
                     }
                     is Unit -> {
                         // Успешная регистрация
