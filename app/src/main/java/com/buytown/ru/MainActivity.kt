@@ -1,59 +1,52 @@
+package com.buytown.ru
+
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.buytown.ru.R
 import com.buytown.ru.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-        if (isUserLoggedIn()) {
-            binding.bottomNavigationView.visibility = View.VISIBLE
-            navController.setGraph(R.navigation.nav_main)
-        } else {
-            binding.bottomNavigationView.visibility = View.GONE
-            navController.setGraph(R.navigation.nav_login)
-        }
-
-        binding.bottomNavigationView.setupWithNavController(navController)
+        val navController = findNavController(R.id.nav_host_fragment)
         setupActionBarWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.loginFragment -> binding.bottomNavigationView.visibility = View.GONE
-                else -> binding.bottomNavigationView.visibility = View.VISIBLE
+        val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
+        bottomNavView.setupWithNavController(navController)
+
+        if (savedInstanceState == null) {
+            if (getToken().isNullOrEmpty()) {
+                navController.navigate(R.id.loginFragment)
             }
         }
     }
 
-    private fun isUserLoggedIn(): Boolean {
-        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        return sharedPreferences.getString("token", null) != null
+    fun getToken(): String? {
+        return sharedPreferences.getString("token", null)
     }
 
     fun saveToken(token: String) {
-        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         sharedPreferences.edit().putString("token", token).apply()
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

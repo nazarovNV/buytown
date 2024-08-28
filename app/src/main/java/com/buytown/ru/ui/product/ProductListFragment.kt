@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.buytown.ru.MainActivity
 import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentProductListBinding
 import com.buytown.ru.utils.Status
