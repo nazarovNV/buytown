@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.buytown.ru.MainActivity
 import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentProductListBinding
 import com.buytown.ru.utils.Status
@@ -37,8 +38,8 @@ class ProductListFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
 
-        val token = "Bearer ваш_токен_здесь"
-        productViewModel.fetchProducts(token)
+        val token = (requireActivity() as MainActivity).getToken() ?: return
+        productViewModel.fetchProducts("Bearer $token")
 
         binding.addProductButton.setOnClickListener {
             findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
