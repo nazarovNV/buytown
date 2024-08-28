@@ -37,7 +37,6 @@ class ProductListFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
 
-        // Получение токена пользователя - замените на реальный токен
         val token = "Bearer ваш_токен_здесь"
         productViewModel.fetchProducts(token)
 

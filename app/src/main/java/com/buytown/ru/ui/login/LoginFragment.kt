@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentLoginBinding
 import com.buytown.ru.utils.Resource
 import com.buytown.ru.utils.Status
@@ -49,15 +51,9 @@ class LoginFragment : Fragment() {
             toggleRegistrationMode()
         }
 
-        binding.registerButton.setOnClickListener {
-            registerUser()
-        }
-
-        // Добавим TextWatchers для отслеживания изменений текста
         setupTextWatchers()
         updateButtonsState()
 
-        // Соберите результаты входа и регистрации
         loginViewModel.loginResult.observe(viewLifecycleOwner) { resource ->
             handleResult(resource)
         }
@@ -109,9 +105,8 @@ class LoginFragment : Fragment() {
             Status.SUCCESS -> {
                 when (resource.data) {
                     is String -> {
-                        // Успешная авторизация
-                        // Навигация на следующий фрагмент
-                        // findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
+                        // Успешная авторизация, выполняем навигацию
+                        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     }
                     is Unit -> {
                         // Успешная регистрация
@@ -132,11 +127,9 @@ class LoginFragment : Fragment() {
     private fun setupTextWatchers() {
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 updateButtonsState()
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
 

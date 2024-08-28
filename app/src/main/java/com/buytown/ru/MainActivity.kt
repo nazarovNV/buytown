@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.buytown.ru.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,12 +22,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_products, R.id.nav_add_product, R.id.nav_profile)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.bottomNavigationView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
