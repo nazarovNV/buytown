@@ -65,7 +65,8 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun navigateToMain() {
-        navController.navigate(R.id.action_loginFragment_to_productFragment)
+        navController.navigate(R.id.action_loginFragment_to_mainFragment)
     }
+
 
 }
