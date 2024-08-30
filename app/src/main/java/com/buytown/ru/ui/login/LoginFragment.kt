@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.buytown.ru.databinding.FragmentLoginBinding
 import com.buytown.ru.utils.Resource
 import com.buytown.ru.utils.Status
@@ -91,8 +92,9 @@ class LoginFragment : Fragment() {
     private fun loginUser() {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
+        val navController = findNavController()
 
-        loginViewModel.login(email, password)
+        loginViewModel.login(email, password, navController)
     }
 
     private fun registerUser() {
@@ -110,8 +112,7 @@ class LoginFragment : Fragment() {
                 when (resource.data) {
                     is String -> {
                         // Успешная авторизация
-                        // Навигация на следующий фрагмент
-                        // findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
+                        // Навигация будет выполнена из ViewModel
                     }
                     is Unit -> {
                         // Успешная регистрация

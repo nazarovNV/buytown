@@ -9,7 +9,15 @@
         android:id="@+id/loginFragment"
         android:name="com.buytown.ru.ui.login.LoginFragment"
         android:label="Login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
 
-    <!-- Здесь можно добавить другие экраны, например, экран списка товаров -->
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.buytown.ru.ui.product.ProductFragment"
+        android:label="Product"
+        tools:layout="@layout/fragment_product" />
 </navigation>
