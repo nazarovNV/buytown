@@ -25,6 +25,8 @@ class LoginViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    var accessToken: String? = null
+
     fun register(username: String, email: String, password: String) {
         _isLoading.value = true
         viewModelScope.launch {
@@ -45,6 +47,7 @@ class LoginViewModel @Inject constructor(
             try {
                 val token = userRepository.login(email, password)
                 _loginResult.value = Resource.success(token)
+                accessToken = token
             } catch (e: Exception) {
                 _loginResult.value = Resource.error("Неверный логин или пароль. Попробуйте еще раз.")
             } finally {
