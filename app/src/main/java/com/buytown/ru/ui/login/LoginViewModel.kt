@@ -60,7 +60,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun logSavedToken() {
+    private fun logSavedToken() {
         val sharedPreferences = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token_key", "No Token Found")
         Log.d("LoginViewModel", "Saved Token: $token")
