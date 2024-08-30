@@ -55,7 +55,7 @@ class LoginViewModel @Inject constructor(
                 val token = userRepository.login(email, password)
                 TokenManager.saveToken(context, token)  // Сохранение токена после успешного входа
                 _loginResult.value = Resource.success(token)
-                navigateToProducts()
+                navigateToMain()
             } catch (e: Exception) {
                 _loginResult.value = Resource.error("Неверный логин или пароль. Попробуйте еще раз.")
             } finally {
@@ -64,7 +64,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun navigateToProducts() {
-        navController.navigate(R.id.action_loginFragment_to_productFragment)
+    private fun navigateToMain() {
+        navController.navigate(R.id.action_loginFragment_to_mainFragment)
     }
+
 }
