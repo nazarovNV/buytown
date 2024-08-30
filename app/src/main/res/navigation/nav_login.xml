@@ -2,23 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/nav_login"
     app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.buytown.ru.ui.login.LoginFragment"
-        android:label="Login"
+        android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_mainFragment"
-            app:destination="@id/mainFragment"/>
+            android:id="@+id/action_loginFragment_to_nav_main"
+            app:destination="@id/nav_main"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
-
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.buytown.ru.ui.main.MainFragment"
-        android:label="Main"
-        tools:layout="@layout/fragment_main"
-        app:navGraph="@navigation/main_nav_graph" />
 </navigation>
