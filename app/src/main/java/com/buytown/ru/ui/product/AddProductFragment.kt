@@ -26,5 +26,3 @@ class AddProductFragment : Fragment() {
         _binding = null
     }
 }
-
-
