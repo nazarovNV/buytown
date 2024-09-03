@@ -41,4 +41,5 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(Di
             return oldItem == newItem
         }
     }
+
 }
