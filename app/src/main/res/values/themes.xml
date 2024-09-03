@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BuyTown" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+
+        <!-- Установка цветов для кнопок -->
+        <item name="colorSurface">@color/colorSurface</item>            <!-- Цвет поверхности -->
+        <item name="colorOnSurface">@color/colorOnSurface</item>         <!-- Текст на кнопках -->
+
+        <!-- Цвет для BottomNavigation -->
     </style>
 
     <style name="Theme.BuyTown" parent="Base.Theme.BuyTown" />
