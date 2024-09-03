@@ -17,8 +17,6 @@ class ProductViewModel @Inject constructor(
     private val _products = MutableLiveData<Resource<List<Product>>>()
     val products: LiveData<Resource<List<Product>>> = _products
 
-
-
     fun fetchProducts() {
         viewModelScope.launch {
             _products.value = Resource.loading()
@@ -27,9 +25,8 @@ class ProductViewModel @Inject constructor(
                 _products.value = Resource.success(response)
             } catch (e: Exception) {
                 Log.e("ProductViewModel", "Error fetching products", e)
-                _products.value = Resource.error("Failed to fetch products.")
+                _products.value = Resource.error(e.message ?: "Неизвестная ошибка.")
             }
         }
     }
-
 }

@@ -9,7 +9,7 @@ data class User(val username: String, val email: String, val password: String)
 
 interface ApiService {
     @POST("register")
-    suspend fun register(@Body user: User)
+    suspend fun register(@Body user: com.buytown.ru.data.network.User)
 
     @POST("login")
     suspend fun login(@Body credentials: Map<String, String>): LoginResponse

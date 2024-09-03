@@ -35,15 +35,14 @@ class ProductFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        productViewModel.products.observe(viewLifecycleOwner, Observer {
-            when (it.status) {
+        productViewModel.products.observe(viewLifecycleOwner) { resource ->
+            binding.progressBar.visibility = View.GONE
+            when (resource.status) {
                 Status.SUCCESS -> {
-                    it.data?.let { products -> adapter.submitList(products) }
-                    binding.progressBar.visibility = View.GONE
+                    resource.data?.let { products -> adapter.submitList(products) }
                 }
                 Status.ERROR -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.errorTextView.text = it.message
+                    binding.errorTextView.text = resource.message
                     binding.errorTextView.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
@@ -51,7 +50,8 @@ class ProductFragment : Fragment() {
                     binding.errorTextView.visibility = View.GONE
                 }
             }
-        })
+        }
+
 
         productViewModel.fetchProducts()
     }
