@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,41 +9,76 @@
 
     <ImageView
         android:id="@+id/productImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/imgexample"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/productName"
+        app:layout_constraintHeight_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
 
     <TextView
         android:id="@+id/productName"
-        android:text="Ноутбук для работы и учебы 15,6 4-ядра IPS 16Gb SSD 512 Gb"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:paddingTop="4dp"
+        android:text="Ноутбук для работы и учебы 15,6 4-ядра IPS 16Gb SSD 512 Gb"
         android:textStyle="bold"
-        android:paddingTop="4dp"/>
+        app:layout_constraintStart_toEndOf="@+id/productImage"
+        app:layout_constraintTop_toTopOf="@+id/productImage"
+        app:layout_constraintWidth_percent="0.55" />
 
     <TextView
         android:id="@+id/productCategory"
-        android:text="Ноутбуки"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="2dp"
+        android:text="Ноутбуки"
+        app:layout_constraintStart_toEndOf="@+id/productImage"
+        app:layout_constraintTop_toBottomOf="@+id/productName" />
 
     <TextView
         android:id="@+id/productDescription"
-        android:text="Ноутбук - мощное устройство для разных задач. Этот ноутбук игровой отлично подойдет как для дома, так и для офиса. А впечатляющие характеристики позволят наслаждаться любимыми играми без зависаний и перегрева. Стильный матовый корпус из металла и пластика, красивый дизайн. MS Office 2007 уже установлен и активирован, без подписки, с наличием всех санкционных шрифтов. Мощный офисный ноутбук для работы на процессоре Intel Celeron с 4 ядрами, где на выходе вы получите высокую производительность. Диагональ ноутбука 15.6 дюймов, оптимальный вариант между удобством использования и компактностью. Вы сможете спокойно работать с большим объемом данных, благодаря оперативной памяти в 16 Гб и SSD диску в 512 Гб. Высококачественный экран позволит наслаждаться яркими и насыщенными оттенками. На ноутбук установлена операционная система Windows 11 Pro , он отлично подойдет не только для работы и учебы, но и для развлечений, благодаря производительности и мощности устройства. Ноутбук для учебы обладает всеми характеристиками, чтобы успешно решать сложные задачи. Преимущества включают мощный процессор, высокую производительность, большой объем памяти, высокое разрешение экрана и большую оперативную память. Также оснащен антибликовым экраном, встроенной видеокартой, сканером отпечатка пальца. Клавиатура англо-русская с подсветкой. Время автономной работы составляет 6 часов. Вы получите быстрый доступ к своим файлам, приложениям и сервисам Microsoft. Кроме того, можете быть уверены в безопасности ваших данных благодаря защитным функциям ОС. Дисплей ноутбука великолепно передает изображение благодаря своему высокому разрешению , придает картинке яркость и четкость, позволяя вам наслаждаться качественным изображением при просмотре фильмов, работе со сложной графикой и в играх. Вы сможете выполнять сложные задачи-будь то редактирование видео, запуск большого количества приложений одновременно или запуск игр."
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:maxLines="3"
-        android:ellipsize="end"
+        android:layout_marginTop="8dp"
         android:background="@drawable/description_background"
-        android:textColorHint="@android:color/darker_gray"/>
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:paddingTop="2dp"
+        android:text="Ноутбук - мощное устройство для разных задач. Этот ноутбук игровой отлично подойдет как для дома, так и для офиса. А впечатляющие характеристики позволят наслаждаться любимыми играми без зависаний и перегрева. Стильный матовый корпус из металла и пластика, красивый дизайн. MS Office 2007 уже установлен и активирован, без подписки, с наличием всех санкционных шрифтов. Мощный офисный ноутбук для работы на процессоре Intel Celeron с 4 ядрами, где на выходе вы получите высокую производительность. Диагональ ноутбука 15.6 дюймов, оптимальный вариант между удобством использования и компактностью. Вы сможете спокойно работать с большим объемом данных, благодаря оперативной памяти в 16 Гб и SSD диску в 512 Гб. Высококачественный экран позволит наслаждаться яркими и насыщенными оттенками. На ноутбук установлена операционная система Windows 11 Pro , он отлично подойдет не только для работы и учебы, но и для развлечений, благодаря производительности и мощности устройства. Ноутбук для учебы обладает всеми характеристиками, чтобы успешно решать сложные задачи. Преимущества включают мощный процессор, высокую производительность, большой объем памяти, высокое разрешение экрана и большую оперативную память. Также оснащен антибликовым экраном, встроенной видеокартой, сканером отпечатка пальца. Клавиатура англо-русская с подсветкой. Время автономной работы составляет 6 часов. Вы получите быстрый доступ к своим файлам, приложениям и сервисам Microsoft. Кроме того, можете быть уверены в безопасности ваших данных благодаря защитным функциям ОС. Дисплей ноутбука великолепно передает изображение благодаря своему высокому разрешению , придает картинке яркость и четкость, позволяя вам наслаждаться качественным изображением при просмотре фильмов, работе со сложной графикой и в играх. Вы сможете выполнять сложные задачи-будь то редактирование видео, запуск большого количества приложений одновременно или запуск игр."
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="@+id/productPrice"
+        app:layout_constraintTop_toBottomOf="@+id/productPrice"
+        app:layout_constraintWidth_percent="0.55" />
 
     <TextView
         android:id="@+id/productPrice"
-        android:text="27191"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingTop="2dp"
+        android:text="27191"
         android:textStyle="italic"
-        android:paddingTop="2dp"/>
-</LinearLayout>
+        app:layout_constraintStart_toStartOf="@+id/productCategory"
+        app:layout_constraintTop_toBottomOf="@+id/productCategory" />
+
+    <TextView
+        android:id="@+id/productPriceCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:text="₽"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/productPrice"
+        app:layout_constraintTop_toTopOf="@+id/productPrice" />
+</androidx.constraintlayout.widget.ConstraintLayout>
