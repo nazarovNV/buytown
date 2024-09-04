@@ -9,10 +9,8 @@
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
         <!-- Установка цветов для кнопок -->
-        <item name="colorSurface">@color/colorSurface</item>            <!-- Цвет поверхности -->
-        <item name="colorOnSurface">@color/colorOnSurface</item>         <!-- Текст на кнопках -->
-
-        <!-- Цвет для BottomNavigation -->
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
     </style>
 
     <style name="Theme.BuyTown" parent="Base.Theme.BuyTown" />
