@@ -40,7 +40,7 @@ class AddProductFragment : Fragment() {
             if (name.isBlank() || price == null || description.isBlank() || category.isBlank()) {
                 Toast.makeText(context, "Заполните все обязательные поля", Toast.LENGTH_SHORT).show()
             } else {
-                val product = Product(0.toString(), category, description, imageUrl, name, price)
+                val product = Product(category, description,0.toString(), imageUrl, name, price)
                 addProductViewModel.addProduct(product)
             }
         }
