@@ -9,8 +9,4 @@
         android:id="@+id/navigation_add_product"
         android:icon="@drawable/ic_add"
         android:title="Добавить продукты"/>
-    <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_profile"
-        android:title="Личные данные"/>
 </menu>

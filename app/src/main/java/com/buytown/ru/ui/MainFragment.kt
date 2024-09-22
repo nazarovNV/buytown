@@ -38,10 +38,6 @@ class MainFragment : Fragment() {
                     navController.navigate(R.id.addProductFragment)
                     true
                 }
-                R.id.navigation_profile -> {
-                    navController.navigate(R.id.profileFragment)
-                    true
-                }
                 else -> false
             }
         }
