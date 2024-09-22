@@ -1,4 +1,4 @@
 package com.buytown.ru.data.model
 
-class User(username: String, email: String, password: String) {
+data class User(val username: String, val email: String, val password: String) {
 }
