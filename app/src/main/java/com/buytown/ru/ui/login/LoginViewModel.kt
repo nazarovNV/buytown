@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.buytown.ru.R
+import com.buytown.ru.data.model.User
 import com.buytown.ru.data.repository.UserRepository
-import com.buytown.ru.data.network.User
 import com.buytown.ru.utils.Resource
 import com.buytown.ru.utils.TokenManager
 import dagger.hilt.android.lifecycle.HiltViewModel
