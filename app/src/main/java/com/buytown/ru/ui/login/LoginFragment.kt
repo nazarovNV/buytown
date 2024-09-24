@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.buytown.ru.MainActivity
-import com.buytown.ru.R
 import com.buytown.ru.databinding.FragmentLoginBinding
 import com.buytown.ru.utils.Resource
 import com.buytown.ru.utils.Status
@@ -48,9 +46,19 @@ class LoginFragment : Fragment() {
             toggleRegistrationMode()
         }
 
+        binding.authSwitchText.setOnClickListener {
+            toggleRegistrationMode()
+        }
+
+        binding.registerButton.setOnClickListener {
+            registerUser()
+        }
+
+        // Добавим TextWatchers для отслеживания изменений текста
         setupTextWatchers()
         updateButtonsState()
 
+        // Соберите результаты входа и регистрации
         loginViewModel.loginResult.observe(viewLifecycleOwner) { resource ->
             handleResult(resource)
         }
@@ -66,15 +74,27 @@ class LoginFragment : Fragment() {
         isRegistering = !isRegistering
 
         binding.usernameTextInputLayout.visibility = if (isRegistering) View.VISIBLE else View.GONE
-        binding.loginButton.text = if (isRegistering) "Register" else "Login"
-        binding.registerSwitchText.text = if (isRegistering) "Already have an account? Log in" else "Don't have an account? Register"
+        binding.loginButton.visibility = if (isRegistering) View.GONE else View.VISIBLE
+        binding.registerButton.visibility = if (isRegistering) View.VISIBLE else View.GONE
+
+        binding.registerSwitchText.visibility = if (isRegistering) View.GONE else View.VISIBLE
+        binding.authSwitchText.visibility = if (isRegistering) View.VISIBLE else View.GONE
+
+        binding.instructionText.text = if (isRegistering) {
+            "Добро пожаловать в BuyTown!\nДля регистрации введите ваш логин, почту и пароль"
+        } else {
+            "Введите ваш логин и пароль"
+        }
+
+        updateButtonsState()
     }
 
     private fun loginUser() {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
+        val navController = findNavController()
 
-        loginViewModel.login(email, password)
+        loginViewModel.login(email, password, navController)
     }
 
     private fun registerUser() {
@@ -91,12 +111,11 @@ class LoginFragment : Fragment() {
             Status.SUCCESS -> {
                 when (resource.data) {
                     is String -> {
-                        // Успешная авторизация, сохраняем токен и выполняем навигацию
-                        (requireActivity() as MainActivity).saveToken(resource.data)
-                        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+                        // Успешная авторизация
+                        // Навигация будет выполнена из ViewModel
                     }
                     is Unit -> {
-                        // Успешная регистрация, переключаем режим на вход
+                        // Успешная регистрация
                         toggleRegistrationMode()
                     }
                 }
@@ -114,9 +133,11 @@ class LoginFragment : Fragment() {
     private fun setupTextWatchers() {
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 updateButtonsState()
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
 
@@ -130,10 +151,10 @@ class LoginFragment : Fragment() {
         val isPasswordNotEmpty = binding.passwordEditText.text.toString().isNotEmpty()
         val isUsernameNotEmpty = binding.usernameEditText.text.toString().isNotEmpty()
 
-        binding.loginButton.isEnabled = if (isRegistering) {
-            isEmailNotEmpty && isPasswordNotEmpty && isUsernameNotEmpty
+        if (isRegistering) {
+            binding.registerButton.isEnabled = isUsernameNotEmpty && isEmailNotEmpty && isPasswordNotEmpty
         } else {
-            isEmailNotEmpty && isPasswordNotEmpty
+            binding.loginButton.isEnabled = isEmailNotEmpty && isPasswordNotEmpty
         }
     }
 
@@ -147,7 +168,9 @@ class LoginFragment : Fragment() {
         binding.passwordEditText.isEnabled = enable
         binding.usernameEditText.isEnabled = enable
         binding.loginButton.isEnabled = enable
+        binding.registerButton.isEnabled = enable
         binding.registerSwitchText.isEnabled = enable
+        binding.authSwitchText.isEnabled = enable
     }
 
     override fun onDestroyView() {

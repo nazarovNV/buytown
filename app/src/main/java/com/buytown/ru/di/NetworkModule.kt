@@ -1,16 +1,17 @@
 package com.buytown.ru.di
 
-import com.buytown.ru.data.network.ProductApiService
+import android.content.Context
 import com.buytown.ru.data.network.ApiService
+import com.buytown.ru.data.network.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import android.content.SharedPreferences
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -18,37 +19,26 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(preferences: SharedPreferences): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val token = preferences.getString("token", null)
-                val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
-                    .build()
-                chain.proceed(newRequest)
-            }
+            .addInterceptor(authInterceptor)
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideApiService(client: OkHttpClient): ApiService {
+    fun provideAuthInterceptor(@ApplicationContext context: Context): AuthInterceptor {
+        return AuthInterceptor(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(okHttpClient: OkHttpClient): ApiService {
         return Retrofit.Builder()
             .baseUrl("http://147.45.153.157:8000/")
-            .client(client)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideProductApiService(client: OkHttpClient): ProductApiService {
-        return Retrofit.Builder()
-            .baseUrl("http://147.45.153.157:8000/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ProductApiService::class.java)
     }
 }

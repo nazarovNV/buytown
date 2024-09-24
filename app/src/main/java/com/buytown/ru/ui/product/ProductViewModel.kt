@@ -1,5 +1,6 @@
 package com.buytown.ru.ui.product
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.buytown.ru.data.model.Product
 import com.buytown.ru.data.repository.ProductRepository
@@ -16,14 +17,15 @@ class ProductViewModel @Inject constructor(
     private val _products = MutableLiveData<Resource<List<Product>>>()
     val products: LiveData<Resource<List<Product>>> = _products
 
-    fun fetchProducts(token: String) {
-        _products.value = Resource.loading()
+    fun fetchProducts() {
         viewModelScope.launch {
+            _products.value = Resource.loading()
             try {
-                val products = productRepository.getProducts(token)
-                _products.value = Resource.success(products)
+                val response = productRepository.getProducts()
+                _products.value = Resource.success(response)
             } catch (e: Exception) {
-                _products.value = Resource.error("Не удалось загрузить товары.")
+                Log.e("ProductViewModel", "Error fetching products", e)
+                _products.value = Resource.error(e.message ?: "Неизвестная ошибка.")
             }
         }
     }
