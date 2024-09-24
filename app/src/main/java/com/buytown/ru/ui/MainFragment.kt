@@ -53,4 +53,3 @@ class MainFragment : Fragment() {
         _binding = null
     }
 }
-
