@@ -4,7 +4,6 @@ package com.buytown.ru.data.repository
 import com.buytown.ru.data.model.Product
 import com.buytown.ru.data.network.AddProductResponse
 import com.buytown.ru.data.network.ApiService
-import com.buytown.ru.data.repository.ProductRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
