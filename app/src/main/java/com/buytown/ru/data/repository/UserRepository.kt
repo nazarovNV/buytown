@@ -7,6 +7,7 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val apiService: ApiService
 ) {
+
     suspend fun register(user: User) = try {
         apiService.register(user)
     } catch (e: Exception) {
